@@ -5,7 +5,8 @@ const morgan = require('morgan');
 
 const app = express();
 // Настройка приложения
-
+app.use(morgan('combined'));
+app.use(bodyParser.json({type: '*/*'}));
 // Настройка сервера
 const port = process.env.PORT || 3090;
 const server = http.createServer(app);
