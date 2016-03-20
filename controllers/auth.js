@@ -5,6 +5,10 @@ exports.signup = function(req, res, next)
   // req.body - всё, что приходит в запросе
   const email = req.body.email;
   const password = req.body.password;
+  if (!email || !password)
+  {
+    return res.status(422).send({error: 'Fill all fields'});
+  }
   // Проверка "существует ли пользователь с таким email"
   User.findOne({email: email}, function(err, existingUser){
       if (err)
@@ -22,14 +26,15 @@ exports.signup = function(req, res, next)
         email: email,
         password: password
       })
-      user.save(function(err) {
+      user.save(function(err) {// Сохранение пользователя
           if (err)
           {
             return next(err);
           }
+          // Ответ, что пользователь создан
           res.json(user);
-      }); // Сохранение пользователя
-      // Ответ, что пользователь создан
+      });
+
   });
 
 }
